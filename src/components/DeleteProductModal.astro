@@ -1,0 +1,58 @@
+<div
+  id="deleteProductModal"
+  class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+>
+  <div class="relative bg-white rounded-2xl w-full max-w-md p-8">
+    <button
+      id="closeDeleteModal"
+      class="absolute top-4 right-4 text-3xl text-gray-500 hover:text-black transition"
+    >
+      ×
+    </button>
+
+    <h2 class="text-2xl font-bold mb-4">Eliminar Producto</h2>
+    <p class="text-gray-600 mb-6">
+      ¿Estás seguro de que deseas eliminar el producto <strong id="deleteProductName"></strong>?
+    </p>
+    
+    <input type="hidden" id="deleteProductId" />
+
+    <div class="flex gap-3">
+      <button
+        id="confirmDeleteBtn"
+        class="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition font-semibold"
+      >
+        Eliminar
+      </button>
+      <button
+        id="cancelDeleteBtn"
+        class="flex-1 bg-gray-300 text-gray-800 py-2 rounded-lg hover:bg-gray-400 transition font-semibold"
+      >
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  const deleteModal = document.getElementById('deleteProductModal');
+  const closeDeleteModal = document.getElementById('closeDeleteModal');
+  const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+  const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+  function closeModal() {
+    deleteModal.classList.add('hidden');
+  }
+
+  closeDeleteModal.addEventListener('click', closeModal);
+  cancelDeleteBtn.addEventListener('click', closeModal);
+
+  deleteModal.addEventListener('click', (e) => {
+    if (e.target === deleteModal) closeModal();
+  });
+
+  confirmDeleteBtn.addEventListener('click', () => {
+    alert('Producto eliminado correctamente');
+    closeModal();
+  });
+</script>

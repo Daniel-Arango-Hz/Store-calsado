@@ -1,0 +1,105 @@
+---
+const products = [
+  {
+    id: "1",
+    name: "Zapatilla Deportiva Running",
+    reference: "ZAP-001-NEGRO",
+    price: 89.99,
+    stock: 25,
+    color: "Negro",
+    size: "36-45",
+    image: "/descarga (1).jpeg",
+    images: ["/descarga (2).jpeg", "/descarga (1).jpeg"],
+    description: "Zapatilla deportiva de alta calidad diseñada para correr. Con tecnología de amortiguación avanzada y suela antideslizante."
+  },
+  {
+    id: "2",
+    name: "Zapato Casual Cuero",
+    reference: "ZAP-002-MARRON",
+    price: 129.99,
+    stock: 15,
+    color: "Marrón",
+    size: "35-44",
+    image: "/descarga (1).jpeg",
+    images: ["/descarga (1).jpeg", "/descarga (2).jpeg"],
+    description: "Zapato casual elaborado en cuero auténtico. Perfecto para uso diario con estilo clásico y elegante."
+  },
+  {
+    id: "3",
+    name: "Botín Formal",
+    reference: "ZAP-003-NEGRO",
+    price: 159.99,
+    stock: 8,
+    color: "Negro",
+    size: "34-43",
+    image: "/descarga (1).jpeg",
+    images: ["/descarga (1).jpeg", "/descarga (2).jpeg"],
+    description: "Botín formal para ocasiones especiales. Fabricado con materiales premium y detalles refinados."
+  }
+];
+---
+
+<div class="space-y-6">
+  <div class="flex justify-between items-center">
+    <h2 class="text-3xl font-bold">Inventario de Productos</h2>
+    <button
+      id="addProductBtn"
+      class="hidden bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-semibold transition"
+    >
+      + Agregar Producto
+    </button>
+  </div>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {products.map(product => (
+      <div
+        data-product={JSON.stringify(product)}
+        class="border rounded-xl p-4 hover:shadow-lg cursor-pointer transition-all duration-300 hover:scale-105 bg-white group"
+      >
+        <img
+          src={product.image}
+          alt={product.name}
+          class="w-full h-48 object-cover rounded-lg mb-4"
+        />
+        <h3 class="text-lg font-bold">{product.name}</h3>
+        <p class="text-sm text-muted-foreground mb-2">Ref: {product.reference}</p>
+        <div class="flex gap-4 text-sm text-muted-foreground mb-2">
+          <p>Color: {product.color}</p>
+          <p>Talla: {product.size}</p>
+        </div>
+        <p class="text-xl font-bold text-green-600 mb-2">${product.price}</p>
+        <div class="flex justify-between items-center">
+          <span class={`inline-block text-sm px-3 py-1 rounded-full ${product.stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+            {product.stock > 0 ? `Stock: ${product.stock}` : 'Sin stock'}
+          </span>
+          <div id="adminActions" class="hidden gap-2 flex">
+            <button
+              class="adminEditBtn p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition"
+              data-product-id={product.id}
+              onclick="event.stopPropagation()"
+            >
+              ✏️
+            </button>
+            <button
+              class="adminDeleteBtn p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition"
+              data-product-id={product.id}
+              onclick="event.stopPropagation()"
+            >
+              🗑️
+            </button>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  import { initProductGrid } from '../scripts/productGrid.js';
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProductGrid);
+  } else {
+    initProductGrid();
+  }
+</script>

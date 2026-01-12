@@ -1,0 +1,202 @@
+<div
+  id="addProductModal"
+  class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+>
+  <div class="relative bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+    <!-- Header con botón cerrar -->
+    <div class="flex items-center justify-between bg-gradient-to-r from-green-50 to-green-100 px-8 py-6 border-b">
+      <h2 class="text-3xl font-bold text-gray-800">Agregar Nuevo Producto</h2>
+      <button
+        id="closeAddModal"
+        class="text-2xl text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center transition"
+      >
+        ×
+      </button>
+    </div>
+
+    <!-- Contenido scrolleable -->
+    <form id="addProductForm" class="overflow-y-auto flex-1 px-8 py-6 space-y-4">
+      <div>
+        <label class="block text-sm font-semibold mb-2 text-gray-700">Nombre</label>
+        <input
+          id="addProductName"
+          type="text"
+          class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          required
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold mb-2 text-gray-700">Referencia</label>
+        <input
+          id="addProductReference"
+          type="text"
+          class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          required
+        />
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold mb-2 text-gray-700">Precio</label>
+          <input
+            id="addProductPrice"
+            type="number"
+            step="0.01"
+            class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            required
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-2 text-gray-700">Stock</label>
+          <input
+            id="addProductStock"
+            type="number"
+            class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold mb-2 text-gray-700">Color</label>
+          <input
+            id="addProductColor"
+            type="text"
+            class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            required
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-2 text-gray-700">Talla</label>
+          <input
+            id="addProductSize"
+            type="text"
+            class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            required
+          />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold mb-2 text-gray-700">Descripción</label>
+        <textarea
+          id="addProductDescription"
+          class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          rows="4"
+          required
+        ></textarea>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <label class="block text-sm font-semibold text-gray-700">Imágenes (múltiples)</label>
+          <span id="fileCountAdd" class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">0 archivos</span>
+        </div>
+        <input
+          id="addProductImages"
+          type="file"
+          multiple
+          accept="image/*"
+          class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          required
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold mb-2 text-gray-700">Vista previa</label>
+        <div id="imagePreviewContainer" class="flex gap-3 flex-wrap mt-2 p-3 bg-gray-50 rounded-lg min-h-24"></div>
+      </div>
+    </form>
+
+    <!-- Footer con botones -->
+    <div class="bg-gray-50 border-t px-8 py-4 flex gap-3">
+      <button
+        type="button"
+        id="closeAddModalBtn"
+        class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg transition duration-200"
+      >
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        form="addProductForm"
+        class="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+      >
+        Crear Producto
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  const addModal = document.getElementById('addProductModal');
+  const closeAddModalBtn = document.getElementById('closeAddModalBtn');
+  const closeAddModal = document.getElementById('closeAddModal');
+  const addProductForm = document.getElementById('addProductForm');
+  const addProductImages = document.getElementById('addProductImages');
+  const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+  const fileCountAdd = document.getElementById('fileCountAdd');
+  let selectedFiles = [];
+
+  function closeModal() {
+    addModal.classList.add('hidden');
+    addProductForm.reset();
+    selectedFiles = [];
+    imagePreviewContainer.innerHTML = '';
+    fileCountAdd.textContent = '0 archivos';
+  }
+
+  closeAddModalBtn.addEventListener('click', closeModal);
+  closeAddModal.addEventListener('click', closeModal);
+
+  addModal.addEventListener('click', (e) => {
+    if (e.target === addModal) closeModal();
+  });
+
+  // Vista previa de imágenes
+  addProductImages.addEventListener('change', (e) => {
+    selectedFiles = Array.from(e.target.files);
+    renderPreviews();
+    updateFileCount();
+  });
+
+  function updateFileCount() {
+    const count = selectedFiles.length;
+    fileCountAdd.textContent = count === 1 ? '1 archivo' : `${count} archivos`;
+  }
+
+  function renderPreviews() {
+    imagePreviewContainer.innerHTML = '';
+    selectedFiles.forEach((file, index) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const previewDiv = document.createElement('div');
+        previewDiv.className = 'relative w-20 h-20';
+        previewDiv.innerHTML = `
+          <img src="${event.target.result}" alt="preview" class="w-full h-full object-cover rounded-lg border-2 border-gray-200" />
+          <button type="button" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 font-bold" data-image-index="${index}">×</button>
+        `;
+        
+        previewDiv.querySelector('button').addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const idx = parseInt(e.target.closest('button').dataset.imageIndex);
+          selectedFiles.splice(idx, 1);
+          renderPreviews();
+          updateFileCount();
+        });
+        
+        imagePreviewContainer.appendChild(previewDiv);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  addProductForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Producto creado correctamente');
+    closeModal();
+  });
+</script>

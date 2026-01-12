@@ -1,0 +1,199 @@
+<div
+  id="editProductModal"
+  class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+>
+  <div class="relative bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+    <!-- Header con botón cerrar -->
+    <div class="flex items-center justify-between bg-gradient-to-r from-blue-50 to-blue-100 px-8 py-6 border-b">
+      <h2 class="text-3xl font-bold text-gray-800">Editar Producto</h2>
+      <button
+        id="closeEditModal"
+        class="text-2xl text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center transition"
+      >
+        ×
+      </button>
+    </div>
+
+    <!-- Contenido scrolleable -->
+    <form id="editProductForm" class="overflow-y-auto flex-1 px-8 py-6 space-y-4">
+      <input type="hidden" id="editProductId" />
+
+      <div>
+        <label class="block text-sm font-semibold mb-2 text-gray-700">Nombre</label>
+        <input
+          id="editProductName"
+          type="text"
+          class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          required
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold mb-2 text-gray-700">Referencia</label>
+        <input
+          id="editProductReference"
+          type="text"
+          class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          required
+        />
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold mb-2 text-gray-700">Precio</label>
+          <input
+            id="editProductPrice"
+            type="number"
+            step="0.01"
+            class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            required
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-2 text-gray-700">Stock</label>
+          <input
+            id="editProductStock"
+            type="number"
+            class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold mb-2 text-gray-700">Color</label>
+          <input
+            id="editProductColor"
+            type="text"
+            class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            required
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-2 text-gray-700">Talla</label>
+          <input
+            id="editProductSize"
+            type="text"
+            class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            required
+          />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold mb-2 text-gray-700">Descripción</label>
+        <textarea
+          id="editProductDescription"
+          class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          rows="4"
+          required
+        ></textarea>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <label class="block text-sm font-semibold text-gray-700">Imágenes</label>
+          <span id="fileCountEdit" class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">0 archivos</span>
+        </div>
+        <input
+          id="editProductImages"
+          type="file"
+          multiple
+          accept="image/*"
+          class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold mb-2 text-gray-700">Vista previa</label>
+        <div id="editImagePreviewContainer" class="flex gap-3 flex-wrap mt-2 p-3 bg-gray-50 rounded-lg min-h-24"></div>
+      </div>
+    </form>
+
+    <!-- Footer con botones -->
+    <div class="bg-gray-50 border-t px-8 py-4 flex gap-3">
+      <button
+        type="button"
+        id="closeEditModalBtn"
+        class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg transition duration-200"
+      >
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        form="editProductForm"
+        class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+      >
+        Guardar cambios
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  const editModal = document.getElementById('editProductModal');
+  const closeEditModalBtn = document.getElementById('closeEditModalBtn');
+  const closeEditModal = document.getElementById('closeEditModal');
+  const editProductForm = document.getElementById('editProductForm');
+  const editProductImages = document.getElementById('editProductImages');
+  const editImagePreviewContainer = document.getElementById('editImagePreviewContainer');
+  const fileCountEdit = document.getElementById('fileCountEdit');
+  let editSelectedFiles = [];
+
+  function closeModal() {
+    editModal.classList.add('hidden');
+  }
+
+  closeEditModalBtn.addEventListener('click', closeModal);
+  closeEditModal.addEventListener('click', closeModal);
+
+  editModal.addEventListener('click', (e) => {
+    if (e.target === editModal) closeModal();
+  });
+
+  // Vista previa de imágenes al editar
+  editProductImages.addEventListener('change', (e) => {
+    editSelectedFiles = Array.from(e.target.files);
+    renderEditPreviews();
+    updateEditFileCount();
+  });
+
+  function updateEditFileCount() {
+    const count = editSelectedFiles.length;
+    fileCountEdit.textContent = count === 1 ? '1 archivo' : `${count} archivos`;
+  }
+
+  function renderEditPreviews() {
+    editImagePreviewContainer.innerHTML = '';
+    editSelectedFiles.forEach((file, index) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const previewDiv = document.createElement('div');
+        previewDiv.className = 'relative w-20 h-20';
+        previewDiv.innerHTML = `
+          <img src="${event.target.result}" alt="preview" class="w-full h-full object-cover rounded-lg border-2 border-gray-200" />
+          <button type="button" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 font-bold" data-image-index="${index}">×</button>
+        `;
+        
+        previewDiv.querySelector('button').addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const idx = parseInt(e.target.closest('button').dataset.imageIndex);
+          editSelectedFiles.splice(idx, 1);
+          renderEditPreviews();
+          updateEditFileCount();
+        });
+        
+        editImagePreviewContainer.appendChild(previewDiv);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  editProductForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Producto actualizado correctamente');
+    closeModal();
+  });
+</script>

@@ -1,0 +1,74 @@
+<div
+  id="productModal"
+  class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+>
+  <div class="relative bg-white rounded-2xl w-full max-w-5xl p-8 overflow-y-auto max-h-[90vh]">
+
+    <!-- Cerrar -->
+    <button
+      id="closeProductModal"
+      class="absolute top-4 right-4 text-3xl text-gray-500 hover:text-black transition"
+    >
+      ×
+    </button>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+      
+      <!-- Galería -->
+      <div>
+        <div class="relative rounded-xl overflow-hidden bg-gray-100">
+          <img
+            id="mainImage"
+            class="w-full h-96 object-cover"
+          />
+          <span class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 text-white px-4 py-1 rounded-full text-sm">
+            <span id="imageIndex">1</span> / <span id="imageTotal">1</span>
+          </span>
+        </div>
+
+        <div id="thumbnails" class="flex gap-3 mt-4 flex-wrap"></div>
+      </div>
+
+      <!-- Info -->
+      <div class="space-y-6">
+        <div>
+          <h2 id="productName" class="text-4xl font-bold mb-2"></h2>
+          <p id="productRef" class="text-lg text-muted-foreground mb-2"></p>
+          <div class="flex gap-4 text-lg text-muted-foreground">
+            <p id="productColor"></p>
+            <p id="productSize"></p>
+          </div>
+        </div>
+
+        <div>
+          <p id="productPrice" class="text-5xl font-bold text-green-600"></p>
+          <p id="productStock" class="text-lg mt-2"></p>
+        </div>
+
+        <div>
+          <p class="font-semibold mb-3 text-lg">Disponibilidad</p>
+          <span id="availabilityBadge" class="inline-block px-5 py-2 bg-black text-white rounded-xl">
+            En stock
+          </span>
+        </div>
+
+        <div class="pt-6 border-t">
+          <h4 class="font-semibold mb-3 text-lg">Descripción del producto</h4>
+          <p id="productDescription" class="text-muted-foreground leading-relaxed"></p>
+        </div>
+
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initProductModal } from '../scripts/productModal.js';
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProductModal);
+  } else {
+    initProductModal();
+  }
+</script>

@@ -1,11 +1,57 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import "../style/global.css";
+import Header from "../components/Header.astro";
+import ProductGrid from "../components/ProductGrid.astro";
+import Orders from "../components/Orders.astro";
+import Sales from "../components/Sales.astro";
+import CashRegister from "../components/CashRegister.astro";
+import PublicInventory from "../components/PublicInventory.astro";
+import ProductModal from "../components/ProductModal.astro";
+import AddProductModal from "../components/AddProductModal.astro";
+import EditProductModal from "../components/EditProductModal.astro";
+import DeleteProductModal from "../components/DeleteProductModal.astro";
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calzado Premium</title>
+  </head>
+  <body class="min-h-screen bg-background">
+    <Header />
+
+    <main class="container mx-auto px-6 py-8">
+      <div id="productsView">
+        <ProductGrid />
+      </div>
+      <div id="ordersView" class="hidden">
+        <Orders />
+      </div>
+      <div id="salesView" class="hidden">
+        <Sales />
+      </div>
+      <div id="cashView" class="hidden">
+        <CashRegister />
+      </div>
+      <div id="publicView" class="hidden">
+        <PublicInventory />
+      </div>
+    </main>
+
+    <ProductModal />
+    <AddProductModal />
+    <EditProductModal />
+    <DeleteProductModal />
+
+    <script>
+      import { initPageNavigation } from '../scripts/pageNavigation.js';
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPageNavigation);
+      } else {
+        initPageNavigation();
+      }
+    </script>
+  </body>
+</html>
